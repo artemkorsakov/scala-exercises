@@ -1,2 +1,2 @@
 # scala-exercises
-My https://www.scala-exercises.org/ repository
+My <a href="https://www.scala-exercises.org/">scala-exercises</a> repository.
