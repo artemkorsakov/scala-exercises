@@ -4,6 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 import scala.collection.immutable.LazyList.cons
+import scala.language.postfixOps
 
 class TraversablesTestSuite extends AnyFunSuiteLike with Matchers {
   test("test STD LIB section Traversables 0") {
