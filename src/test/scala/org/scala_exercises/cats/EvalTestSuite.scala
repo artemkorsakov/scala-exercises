@@ -1,49 +1,80 @@
 package org.scala_exercises.cats
 
+import cats.Eval
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class EvalTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Eval 0") {}
+  test("test STD LIB section Eval 0") {
+    val eager = Eval.now {
+      println("Running expensive calculation...")
+      1 + 2 * 3
+    }
 
-  test("test STD LIB section Eval 1") {}
+    eager.value shouldBe 7
+  }
 
-  test("test STD LIB section Eval 2") {}
+  test("test STD LIB section Eval 1") {
+    val eagerEval = Eval.now {
+      println("This is eagerly evaluated")
+      1 :: 2 :: 3 :: Nil
+    }
 
-  test("test STD LIB section Eval 3") {}
+    eagerEval.value shouldBe List(1, 2, 3)
+  }
 
-  test("test STD LIB section Eval 4") {}
+  test("test STD LIB section Eval 2") {
+    val lazyEval = Eval.later {
+      println("Running expensive calculation...")
+      1 + 2 * 3
+    }
+    // lazyEval: cats.Eval[Int] = cats.Later@6c2b03e9
 
-  test("test STD LIB section Eval 5") {}
+    lazyEval.value shouldBe 7
+    // Running expensive calculation...
 
-  test("test STD LIB section Eval 6") {}
+    lazyEval.value shouldBe 7
+  }
 
-  test("test STD LIB section Eval 7") {}
+  test("test STD LIB section Eval 3") {
+    val n       = 2
+    var counter = 0
+    val lazyEval = Eval.later {
+      println("This is lazyly evaluated with caching")
+      counter = counter + 1
+      1 to n
+    }
 
-  test("test STD LIB section Eval 8") {}
+    //when/then
+    List.fill(n)("").foreach(_ => lazyEval.value)
+    lazyEval.value shouldBe List(1, 2)
+    counter shouldBe 1
+  }
 
-  test("test STD LIB section Eval 9") {}
+  test("test STD LIB section Eval 4") {
+    val n       = 4
+    var counter = 0
+    val alwaysEval = Eval.always {
+      println("This is lazyly evaluated without caching")
+      counter = counter + 1
+      1 to n
+    }
 
-  test("test STD LIB section Eval 10") {}
+    //when/then
+    List.fill(n)("").foreach(_ => alwaysEval.value)
+    counter shouldBe 4
+    alwaysEval.value shouldBe List(1, 2, 3, 4)
+    counter shouldBe 5
+  }
 
-  test("test STD LIB section Eval 11") {}
+  test("test STD LIB section Eval 5") {
+    val list = List.fill(3)(0)
 
-  test("test STD LIB section Eval 12") {}
+    //when
+    val deferedEval: Eval[List[Int]] = Eval.now(list).flatMap(e => Eval.defer(Eval.later(e)))
 
-  test("test STD LIB section Eval 13") {}
-
-  test("test STD LIB section Eval 14") {}
-
-  test("test STD LIB section Eval 15") {}
-
-  test("test STD LIB section Eval 16") {}
-
-  test("test STD LIB section Eval 17") {}
-
-  test("test STD LIB section Eval 18") {}
-
-  test("test STD LIB section Eval 19") {}
-
-  test("test STD LIB section Eval 20") {}
+    //then
+    Eval.defer(deferedEval).value shouldBe List(0, 0, 0)
+  }
 
 }
