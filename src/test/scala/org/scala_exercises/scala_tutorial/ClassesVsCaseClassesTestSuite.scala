@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class ClassesVsCaseClassesTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section ClassesVsCaseClasses 0") {
+  test("test Scala Tutorial LIB section ClassesVsCaseClasses 0") {
     class BankAccount {
 
       private var balance = 0
@@ -34,7 +34,7 @@ class ClassesVsCaseClassesTestSuite extends AnyFunSuiteLike with Matchers {
 
   }
 
-  test("test STD LIB section ClassesVsCaseClasses 1") {
+  test("test Scala Tutorial LIB section ClassesVsCaseClasses 1") {
     class Note(_name: String, _duration: String, _octave: Int) extends Serializable {
 
       // Constructor parameters are promoted to members

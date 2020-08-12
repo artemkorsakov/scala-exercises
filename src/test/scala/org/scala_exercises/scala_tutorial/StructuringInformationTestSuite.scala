@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class StructuringInformationTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section StructuringInformation 0") {
+  test("test Scala Tutorial LIB section StructuringInformation 0") {
     case class Note(name: String, duration: String, octave: Int)
     val c3 = Note("C", "Quarter", 3)
     c3.name shouldBe "C"
@@ -12,7 +12,7 @@ class StructuringInformationTestSuite extends AnyFunSuiteLike with Matchers {
     c3.octave shouldBe 3
   }
 
-  test("test STD LIB section StructuringInformation 1") {
+  test("test Scala Tutorial LIB section StructuringInformation 1") {
     case class Note(name: String, duration: String, octave: Int)
     val c3      = Note("C", "Quarter", 3)
     val otherC3 = Note("C", "Quarter", 3)
@@ -21,7 +21,7 @@ class StructuringInformationTestSuite extends AnyFunSuiteLike with Matchers {
     (c3 == f3) shouldBe false
   }
 
-  test("test STD LIB section StructuringInformation 2") {
+  test("test Scala Tutorial LIB section StructuringInformation 2") {
     sealed trait Duration
     case object Whole   extends Duration
     case object Half    extends Duration

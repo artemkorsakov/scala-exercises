@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class EvalTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Eval 0") {
+  test("test CATS LIB section Eval 0") {
     val eager = Eval.now {
       println("Running expensive calculation...")
       1 + 2 * 3
@@ -14,7 +14,7 @@ class EvalTestSuite extends AnyFunSuiteLike with Matchers {
     eager.value shouldBe 7
   }
 
-  test("test STD LIB section Eval 1") {
+  test("test CATS LIB section Eval 1") {
     val eagerEval = Eval.now {
       println("This is eagerly evaluated")
       1 :: 2 :: 3 :: Nil
@@ -23,7 +23,7 @@ class EvalTestSuite extends AnyFunSuiteLike with Matchers {
     eagerEval.value shouldBe List(1, 2, 3)
   }
 
-  test("test STD LIB section Eval 2") {
+  test("test CATS LIB section Eval 2") {
     val lazyEval = Eval.later {
       println("Running expensive calculation...")
       1 + 2 * 3
@@ -36,7 +36,7 @@ class EvalTestSuite extends AnyFunSuiteLike with Matchers {
     lazyEval.value shouldBe 7
   }
 
-  test("test STD LIB section Eval 3") {
+  test("test CATS LIB section Eval 3") {
     val n       = 2
     var counter = 0
     val lazyEval = Eval.later {
@@ -51,7 +51,7 @@ class EvalTestSuite extends AnyFunSuiteLike with Matchers {
     counter shouldBe 1
   }
 
-  test("test STD LIB section Eval 4") {
+  test("test CATS LIB section Eval 4") {
     val n       = 4
     var counter = 0
     val alwaysEval = Eval.always {
@@ -67,7 +67,7 @@ class EvalTestSuite extends AnyFunSuiteLike with Matchers {
     counter shouldBe 5
   }
 
-  test("test STD LIB section Eval 5") {
+  test("test CATS LIB section Eval 5") {
     val list = List.fill(3)(0)
 
     //when

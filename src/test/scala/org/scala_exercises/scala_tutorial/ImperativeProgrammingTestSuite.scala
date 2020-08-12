@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class ImperativeProgrammingTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section ImperativeProgramming 0") {
+  test("test Scala Tutorial LIB section ImperativeProgramming 0") {
     class BankAccount {
       private var balance = 0
       def deposit(amount: Int): Int = {
@@ -24,7 +24,7 @@ class ImperativeProgrammingTestSuite extends AnyFunSuiteLike with Matchers {
     x withdraw 20 shouldBe 10
   }
 
-  test("test STD LIB section ImperativeProgramming 1") {
+  test("test Scala Tutorial LIB section ImperativeProgramming 1") {
     def factorial(n: Int): Int = {
       var result = 1
       var i      = 1

@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.annotation.tailrec
 
 class HigherOrderFunctionsTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section HigherOrderFunctions 0") {
+  test("test Scala Tutorial LIB section HigherOrderFunctions 0") {
     def sum(f: Int => Int, a: Int, b: Int): Int = {
       @tailrec
       def loop(x: Int, acc: Int): Int =

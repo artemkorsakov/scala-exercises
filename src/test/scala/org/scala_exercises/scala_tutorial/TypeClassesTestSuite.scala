@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class TypeClassesTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section TypeClasses 0") {
+  test("test Scala Tutorial LIB section TypeClasses 0") {
     def insertionSort[T](xs: List[T])(lessThan: (T, T) => Boolean): List[T] = {
       def insert(y: T, ys: List[T]): List[T] =
         ys match {
@@ -32,7 +32,7 @@ class TypeClassesTestSuite extends AnyFunSuiteLike with Matchers {
     )
   }
 
-  test("test STD LIB section TypeClasses 1") {
+  test("test Scala Tutorial LIB section TypeClasses 1") {
     def insertionSort[T](xs: List[T])(implicit lessThan: (T, T) => Int): List[T] = {
       def insert(y: T, ys: List[T]): List[T] =
         ys match {

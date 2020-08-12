@@ -6,7 +6,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class ApplyTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Apply 0") {
+  test("test CATS LIB section Apply 0") {
     val intToString: Int => String = _.toString
     val double: Int => Int         = _ * 2
     val addTwo: Int => Int         = _ + 2

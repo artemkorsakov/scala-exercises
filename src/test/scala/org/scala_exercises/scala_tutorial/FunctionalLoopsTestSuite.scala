@@ -7,7 +7,7 @@ import scala.annotation.tailrec
 import scala.math.abs
 
 class FunctionalLoopsTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section FunctionalLoops 0") {
+  test("test Scala Tutorial LIB section FunctionalLoops 0") {
     def improve(guess: Double, x: Double) =
       (guess + x / guess) / 2
 
@@ -24,7 +24,7 @@ class FunctionalLoopsTestSuite extends AnyFunSuiteLike with Matchers {
     sqrt(2) shouldBe 1.4142156862745097
   }
 
-  test("test STD LIB section FunctionalLoops 1") {
+  test("test Scala Tutorial LIB section FunctionalLoops 1") {
     def factorial(n: Int): Int =
       if (n == 1) 1
       else factorial(n - 1) * n

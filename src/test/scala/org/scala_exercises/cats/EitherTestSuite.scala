@@ -40,7 +40,7 @@ object EitherStyleWithAdts {
 }
 
 class EitherTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Either 0") {
+  test("test CATS LIB section Either 0") {
     val right: Either[String, Int] = Either.right(5)
     right.map(_ + 1) should be(Right(6))
 
@@ -48,7 +48,7 @@ class EitherTestSuite extends AnyFunSuiteLike with Matchers {
     left.map(_ + 1) should be(Left("Something went wrong"))
   }
 
-  test("test STD LIB section Either 1") {
+  test("test CATS LIB section Either 1") {
     val right: Either[String, Int] = Either.right(5)
     right.flatMap(x => Either.right(x + 1)) should be(Right(6))
 
@@ -56,18 +56,18 @@ class EitherTestSuite extends AnyFunSuiteLike with Matchers {
     left.flatMap(x => Either.right(x + 1)) should be(Left("Something went wrong"))
   }
 
-  test("test STD LIB section Either 2") {
+  test("test CATS LIB section Either 2") {
     parse("Not a number").isRight should be(false)
     parse("2").isRight should be(true)
   }
 
-  test("test STD LIB section Either 3") {
+  test("test CATS LIB section Either 3") {
     magic("0").isRight should be(false)
     magic("1").isRight should be(true)
     magic("Not a number").isRight should be(false)
   }
 
-  test("test STD LIB section Either 4") {
+  test("test CATS LIB section Either 4") {
     val result = magic("2") match {
       case Left(_: NumberFormatException)    => "Not a number!"
       case Left(_: IllegalArgumentException) => "Can't take reciprocal of 0!"
@@ -77,7 +77,7 @@ class EitherTestSuite extends AnyFunSuiteLike with Matchers {
     result should be("Got reciprocal: 0.5")
   }
 
-  test("test STD LIB section Either 5") {
+  test("test CATS LIB section Either 5") {
     val result = EitherStyleWithAdts.magic("2") match {
       case Left(EitherStyleWithAdts.NotANumber(_))    => "Not a number!"
       case Left(EitherStyleWithAdts.NoZeroReciprocal) => "Can't take reciprocal of 0!"
@@ -86,7 +86,7 @@ class EitherTestSuite extends AnyFunSuiteLike with Matchers {
     result should be("Got reciprocal: 0.5")
   }
 
-  test("test STD LIB section Either 6") {
+  test("test CATS LIB section Either 6") {
     val right: Either[String, Int] = Right(41)
     right.map(_ + 1) should be(Right(42))
 
@@ -95,13 +95,13 @@ class EitherTestSuite extends AnyFunSuiteLike with Matchers {
     left.leftMap(_.reverse) should be(Left("olleH"))
   }
 
-  test("test STD LIB section Either 7") {
+  test("test CATS LIB section Either 7") {
     Either.catchOnly[NumberFormatException]("abc".toInt).isRight should be(false)
 
     Either.catchNonFatal(1 / 0).isLeft should be(true)
   }
 
-  test("test STD LIB section Either 8") {
+  test("test CATS LIB section Either 8") {
     val right: Either[String, Int] = 42.asRight[String]
     right should be(Right(42))
   }

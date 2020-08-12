@@ -6,7 +6,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class TraverseTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Traverse 0") {
+  test("test CATS LIB section Traverse 0") {
     def parseIntEither(s: String): Either[NumberFormatException, Int] =
       Either.catchOnly[NumberFormatException](s.toInt)
 
@@ -21,7 +21,7 @@ class TraverseTestSuite extends AnyFunSuiteLike with Matchers {
     List("1", "2", "3").traverse(parseIntValidated).isValid should be(true)
   }
 
-  test("test STD LIB section Traverse 1") {
+  test("test CATS LIB section Traverse 1") {
     List(Option(1), Option(2), Option(3)).traverse(identity) should be(Some(List(1, 2, 3)))
     List(Option(1), None, Option(3)).traverse(identity) should be(None)
 
@@ -29,7 +29,7 @@ class TraverseTestSuite extends AnyFunSuiteLike with Matchers {
     List(Option(1), None, Option(3)).sequence should be(None)
   }
 
-  test("test STD LIB section Traverse 2") {
+  test("test CATS LIB section Traverse 2") {
     List(Option(1), Option(2), Option(3)).sequence_ should be(Some())
     List(Option(1), None, Option(3)).sequence_ should be(None)
   }

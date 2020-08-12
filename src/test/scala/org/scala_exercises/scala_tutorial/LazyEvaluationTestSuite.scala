@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class LazyEvaluationTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section LazyEvaluation 0") {
+  test("test Scala Tutorial LIB section LazyEvaluation 0") {
     var rec = 0
     def llRange(lo: Int, hi: Int): LazyList[Int] = {
       rec = rec + 1
@@ -15,7 +15,7 @@ class LazyEvaluationTestSuite extends AnyFunSuiteLike with Matchers {
     rec shouldBe 4
   }
 
-  test("test STD LIB section LazyEvaluation 1") {
+  test("test Scala Tutorial LIB section LazyEvaluation 1") {
     val builder = new StringBuilder
 
     val x      = { builder += 'x'; 1 }

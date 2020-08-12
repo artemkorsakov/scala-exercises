@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.annotation.tailrec
 
 class ObjectOrientedProgrammingTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section ObjectOrientedProgramming 0") {
+  test("test Scala Tutorial LIB section ObjectOrientedProgramming 0") {
     class Rational(x: Int, y: Int) {
       require(y > 0, "denominator must be positive")
       def this(x: Int) = this(x, 1)
@@ -78,7 +78,7 @@ class ObjectOrientedProgrammingTestSuite extends AnyFunSuiteLike with Matchers {
     new Rational(3).equal(new Rational(3, 1)) shouldBe true
   }
 
-  test("test STD LIB section ObjectOrientedProgramming 1") {
+  test("test Scala Tutorial LIB section ObjectOrientedProgramming 1") {
     abstract class IntSet {
       def incl(x: Int): IntSet
       def contains(x: Int): Boolean
@@ -112,7 +112,7 @@ class ObjectOrientedProgrammingTestSuite extends AnyFunSuiteLike with Matchers {
     new NonEmpty(7, Empty, Empty) contains 7 shouldBe true
   }
 
-  test("test STD LIB section ObjectOrientedProgramming 2") {
+  test("test Scala Tutorial LIB section ObjectOrientedProgramming 2") {
     abstract class Reducer(init: Int) {
       def combine(x: Int, y: Int): Int
       def reduce(xs: List[Int]): Int =

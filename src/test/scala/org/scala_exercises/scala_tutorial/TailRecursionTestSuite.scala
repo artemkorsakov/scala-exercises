@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.annotation.tailrec
 
 class TailRecursionTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section TailRecursion 0") {
+  test("test Scala Tutorial LIB section TailRecursion 0") {
     def factorial(n: Int): Int = {
       @tailrec
       def iter(x: Int, result: Int): Int =

@@ -1,12 +1,12 @@
 package org.scala_exercises.cats
 
+import cats._
 import cats.data.Validated.{ Invalid, Valid }
 import cats.data._
-import cats._
+import cats.implicits._
 import org.scala_exercises.cats.ValidatedTest._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
-import cats.implicits._
 
 object ValidatedTest {
   case class ConnectionParams(url: String, port: Int)
@@ -61,7 +61,7 @@ object ValidatedTest {
 }
 
 class ValidatedTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section Validated 0") {
+  test("test CATS LIB section Validated 0") {
     val config = Config(Map(("url", "127.0.0.1"), ("port", "1337")))
 
     val valid = parallelValidate(config.parse[String]("url").toValidatedNel, config.parse[Int]("port").toValidatedNel)(
@@ -72,7 +72,7 @@ class ValidatedTestSuite extends AnyFunSuiteLike with Matchers {
     valid.getOrElse(ConnectionParams("", 0)) should be(ConnectionParams("127.0.0.1", 1337))
   }
 
-  test("test STD LIB section Validated 1") {
+  test("test CATS LIB section Validated 1") {
     val config = Config(Map(("endpoint", "127.0.0.1"), ("port", "not a number")))
 
     val invalid = parallelValidate(
@@ -85,7 +85,7 @@ class ValidatedTestSuite extends AnyFunSuiteLike with Matchers {
     invalid == Validated.invalid(errors) should be(true)
   }
 
-  test("test STD LIB section Validated 2") {
+  test("test CATS LIB section Validated 2") {
     val config = Config(Map("house_number" -> "-42"))
 
     val houseNumber = config.parse[Int]("house_number").andThen { n =>
@@ -98,7 +98,7 @@ class ValidatedTestSuite extends AnyFunSuiteLike with Matchers {
     houseNumber == Validated.invalid(error) should be(true)
   }
 
-  test("test STD LIB section Validated 3") {
+  test("test CATS LIB section Validated 3") {
     def positive(field: String, i: Int): Either[ConfigError, Int] =
       if (i >= 0) Either.right(i)
       else Either.left(ParseError(field))

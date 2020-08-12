@@ -7,7 +7,7 @@ import scala.annotation.tailrec
 import scala.math._
 
 class LexicalScopesTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test STD LIB section LexicalScopes 0") {
+  test("test Scala Tutorial LIB section LexicalScopes 0") {
     def sqrt(x: Double) = {
       @tailrec
       def sqrtIter(guess: Double, x: Double): Double =
@@ -28,7 +28,7 @@ class LexicalScopesTestSuite extends AnyFunSuiteLike with Matchers {
     sqrt(2) shouldBe 1.4142156862745097
   }
 
-  test("test STD LIB section LexicalScopes 1") {
+  test("test Scala Tutorial LIB section LexicalScopes 1") {
     val x         = 0
     def f(y: Int) = y + 1
     val result = {
@@ -38,7 +38,7 @@ class LexicalScopesTestSuite extends AnyFunSuiteLike with Matchers {
     result shouldBe 16
   }
 
-  test("test STD LIB section LexicalScopes 2") {
+  test("test Scala Tutorial LIB section LexicalScopes 2") {
     def sqrt(x: Double) = {
       def sqrtIter(guess: Double): Double =
         if (isGoodEnough(guess)) guess
@@ -58,7 +58,7 @@ class LexicalScopesTestSuite extends AnyFunSuiteLike with Matchers {
     sqrt(2) shouldBe 1.4142156862745097
   }
 
-  test("test STD LIB section LexicalScopes 3") {
+  test("test Scala Tutorial LIB section LexicalScopes 3") {
     object Foo {
       val x = 1
     }
