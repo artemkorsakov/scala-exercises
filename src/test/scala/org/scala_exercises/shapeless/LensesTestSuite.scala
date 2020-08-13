@@ -2,48 +2,48 @@ package org.scala_exercises.shapeless
 
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
+import shapeless._
 
 class LensesTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test SHAPELESS LIB section Lenses 0") {}
+  object Helper {
+    // A pair of ordinary case classes ...
+    case class Address(street: String, city: String, postcode: String)
+    case class Person(name: String, age: Int, address: Address)
 
-  test("test SHAPELESS LIB section Lenses 1") {}
+    // Some lenses over Person/Address ...
+    val nameLens     = lens[Person] >> Symbol("name")
+    val ageLens      = lens[Person] >> Symbol("age")
+    val addressLens  = lens[Person] >> Symbol("address")
+    val streetLens   = lens[Person] >> Symbol("address") >> Symbol("street")
+    val cityLens     = lens[Person] >> Symbol("address") >> Symbol("city")
+    val postcodeLens = lens[Person] >> Symbol("address") >> Symbol("postcode")
 
-  test("test SHAPELESS LIB section Lenses 2") {}
+    val person = Person("Joe Grey", 37, Address("Southover Street", "Brighton", "BN2 9UA"))
+  }
 
-  test("test SHAPELESS LIB section Lenses 3") {}
+  import Helper._
 
-  test("test SHAPELESS LIB section Lenses 4") {}
+  test("test SHAPELESS LIB section Lenses 0") {
+    ageLens.get(person) should be(37)
+  }
 
-  test("test SHAPELESS LIB section Lenses 5") {}
+  test("test SHAPELESS LIB section Lenses 1") {
+    val updatedPerson = ageLens.set(person)(38)
+    updatedPerson.age should be(38)
+  }
 
-  test("test SHAPELESS LIB section Lenses 6") {}
+  test("test SHAPELESS LIB section Lenses 2") {
+    val updatedPerson = ageLens.modify(person)(_ + 1)
+    updatedPerson.age should be(38)
+  }
 
-  test("test SHAPELESS LIB section Lenses 7") {}
+  test("test SHAPELESS LIB section Lenses 3") {
+    streetLens.get(person) should be("Southover Street")
+  }
 
-  test("test SHAPELESS LIB section Lenses 8") {}
-
-  test("test SHAPELESS LIB section Lenses 9") {}
-
-  test("test SHAPELESS LIB section Lenses 10") {}
-
-  test("test SHAPELESS LIB section Lenses 11") {}
-
-  test("test SHAPELESS LIB section Lenses 12") {}
-
-  test("test SHAPELESS LIB section Lenses 13") {}
-
-  test("test SHAPELESS LIB section Lenses 14") {}
-
-  test("test SHAPELESS LIB section Lenses 15") {}
-
-  test("test SHAPELESS LIB section Lenses 16") {}
-
-  test("test SHAPELESS LIB section Lenses 17") {}
-
-  test("test SHAPELESS LIB section Lenses 18") {}
-
-  test("test SHAPELESS LIB section Lenses 19") {}
-
-  test("test SHAPELESS LIB section Lenses 20") {}
+  test("test SHAPELESS LIB section Lenses 4") {
+    val updatedPerson = streetLens.set(person)("Montpelier Road")
+    updatedPerson.address.street should be("Montpelier Road")
+  }
 
 }

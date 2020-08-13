@@ -2,48 +2,39 @@ package org.scala_exercises.shapeless
 
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
+import shapeless._
 
 class CoproductsTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test SHAPELESS LIB section Coproducts 0") {}
+  test("test SHAPELESS LIB section Coproducts 0") {
+    type ISB = Int :+: String :+: Boolean :+: CNil
 
-  test("test SHAPELESS LIB section Coproducts 1") {}
+    val isb = Coproduct[ISB]("foo")
 
-  test("test SHAPELESS LIB section Coproducts 2") {}
+    isb.select[Int] should be(None)
 
-  test("test SHAPELESS LIB section Coproducts 3") {}
+    isb.select[String] should be(Some("foo"))
 
-  test("test SHAPELESS LIB section Coproducts 4") {}
+    object sizeM extends Poly1 {
+      implicit def caseInt     = at[Int](i => (i, i))
+      implicit def caseString  = at[String](s => (s, s.length))
+      implicit def caseBoolean = at[Boolean](b => (b, 1))
+    }
 
-  test("test SHAPELESS LIB section Coproducts 5") {}
+    val m = isb map sizeM
 
-  test("test SHAPELESS LIB section Coproducts 6") {}
+    m.select[(String, Int)] should be(Some(("foo", 3)))
+  }
 
-  test("test SHAPELESS LIB section Coproducts 7") {}
+  test("test SHAPELESS LIB section Coproducts 1") {
+    import union._, syntax.singleton._
 
-  test("test SHAPELESS LIB section Coproducts 8") {}
+    type U = Union.`'i -> Int, 's -> String, 'b -> Boolean`.T
 
-  test("test SHAPELESS LIB section Coproducts 9") {}
+    val u = Coproduct[U](Symbol("s") ->> "foo") // Inject a String into the union at label 's
 
-  test("test SHAPELESS LIB section Coproducts 10") {}
-
-  test("test SHAPELESS LIB section Coproducts 11") {}
-
-  test("test SHAPELESS LIB section Coproducts 12") {}
-
-  test("test SHAPELESS LIB section Coproducts 13") {}
-
-  test("test SHAPELESS LIB section Coproducts 14") {}
-
-  test("test SHAPELESS LIB section Coproducts 15") {}
-
-  test("test SHAPELESS LIB section Coproducts 16") {}
-
-  test("test SHAPELESS LIB section Coproducts 17") {}
-
-  test("test SHAPELESS LIB section Coproducts 18") {}
-
-  test("test SHAPELESS LIB section Coproducts 19") {}
-
-  test("test SHAPELESS LIB section Coproducts 20") {}
+    u.get(Symbol("i")) should be(None)
+    u.get(Symbol("s")) should be(Some("foo"))
+    u.get(Symbol("b")) should be(None)
+  }
 
 }

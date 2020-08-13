@@ -2,48 +2,24 @@ package org.scala_exercises.shapeless
 
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
+import shapeless._
 
 class HMapTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test SHAPELESS LIB section HMap 0") {}
+  test("test SHAPELESS LIB section HMap 0") {
+    class BiMapIS[K, V]
+    implicit val intToString = new BiMapIS[Int, String]
+    implicit val stringToInt = new BiMapIS[String, Int]
 
-  test("test SHAPELESS LIB section HMap 1") {}
+    val hm = HMap[BiMapIS](23 -> "foo", "bar" -> 13)
+    //val hm2 = HMap[BiMapIS](23 -> "foo", 23 -> 13)   // Does not compile
 
-  test("test SHAPELESS LIB section HMap 2") {}
+    hm.get(23) should be(Some("foo"))
+    hm.get("bar") should be(Some(13))
 
-  test("test SHAPELESS LIB section HMap 3") {}
-
-  test("test SHAPELESS LIB section HMap 4") {}
-
-  test("test SHAPELESS LIB section HMap 5") {}
-
-  test("test SHAPELESS LIB section HMap 6") {}
-
-  test("test SHAPELESS LIB section HMap 7") {}
-
-  test("test SHAPELESS LIB section HMap 8") {}
-
-  test("test SHAPELESS LIB section HMap 9") {}
-
-  test("test SHAPELESS LIB section HMap 10") {}
-
-  test("test SHAPELESS LIB section HMap 11") {}
-
-  test("test SHAPELESS LIB section HMap 12") {}
-
-  test("test SHAPELESS LIB section HMap 13") {}
-
-  test("test SHAPELESS LIB section HMap 14") {}
-
-  test("test SHAPELESS LIB section HMap 15") {}
-
-  test("test SHAPELESS LIB section HMap 16") {}
-
-  test("test SHAPELESS LIB section HMap 17") {}
-
-  test("test SHAPELESS LIB section HMap 18") {}
-
-  test("test SHAPELESS LIB section HMap 19") {}
-
-  test("test SHAPELESS LIB section HMap 20") {}
+    import hm._
+    val l = 23 :: "bar" :: HNil
+    val m = l map hm
+    m should be("foo" :: 13 :: HNil)
+  }
 
 }

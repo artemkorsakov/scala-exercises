@@ -2,48 +2,60 @@ package org.scala_exercises.shapeless
 
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
+import shapeless._
 
 class LazyTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test SHAPELESS LIB section Lazy 0") {}
+  object Helper {
 
-  test("test SHAPELESS LIB section Lazy 1") {}
+    sealed trait List[+T]
+    case class Cons[T](hd: T, tl: List[T]) extends List[T]
+    sealed trait Nil                       extends List[Nothing]
+    case object Nil                        extends Nil
 
-  test("test SHAPELESS LIB section Lazy 2") {}
+    trait Show[T] {
+      def apply(t: T): String
+    }
 
-  test("test SHAPELESS LIB section Lazy 3") {}
+    object Show {
+      // Base case for Int
+      implicit def showInt: Show[Int] =
+        new Show[Int] {
+          def apply(t: Int) = t.toString
+        }
 
-  test("test SHAPELESS LIB section Lazy 4") {}
+      // Base case for Nil
+      implicit def showNil: Show[Nil] =
+        new Show[Nil] {
+          def apply(t: Nil) = "Nil"
+        }
 
-  test("test SHAPELESS LIB section Lazy 5") {}
+      // Case for Cons[T]: note (mutually) recursive implicit argument referencing Show[List[T]]
+      implicit def showCons[T](implicit st: Lazy[Show[T]], sl: Lazy[Show[List[T]]]): Show[Cons[T]] =
+        new Show[Cons[T]] {
+          def apply(t: Cons[T]) = s"Cons(${show(t.hd)(st.value)}, ${show(t.tl)(sl.value)})"
+        }
 
-  test("test SHAPELESS LIB section Lazy 6") {}
+      // Case for List[T]: note (mutually) recursive implicit argument referencing Show[Cons[T]]
+      implicit def showList[T](implicit sc: Lazy[Show[Cons[T]]]): Show[List[T]] =
+        new Show[List[T]] {
+          def apply(t: List[T]) =
+            t match {
+              case n: Nil     => show(n)
+              case c: Cons[T] => show(c)(sc.value)
+            }
+        }
+    }
 
-  test("test SHAPELESS LIB section Lazy 7") {}
+    def show[T](t: T)(implicit s: Show[T]) = s(t)
 
-  test("test SHAPELESS LIB section Lazy 8") {}
+    val l: List[Int] = Cons(1, Cons(2, Cons(3, Nil)))
+  }
 
-  test("test SHAPELESS LIB section Lazy 9") {}
+  import Helper._
 
-  test("test SHAPELESS LIB section Lazy 10") {}
-
-  test("test SHAPELESS LIB section Lazy 11") {}
-
-  test("test SHAPELESS LIB section Lazy 12") {}
-
-  test("test SHAPELESS LIB section Lazy 13") {}
-
-  test("test SHAPELESS LIB section Lazy 14") {}
-
-  test("test SHAPELESS LIB section Lazy 15") {}
-
-  test("test SHAPELESS LIB section Lazy 16") {}
-
-  test("test SHAPELESS LIB section Lazy 17") {}
-
-  test("test SHAPELESS LIB section Lazy 18") {}
-
-  test("test SHAPELESS LIB section Lazy 19") {}
-
-  test("test SHAPELESS LIB section Lazy 20") {}
+  test("test SHAPELESS LIB section Lazy 0") {
+    // Without the Lazy wrappers above the following would diverge ...
+    show(l) should be("Cons(1, Cons(2, Cons(3, Nil)))")
+  }
 
 }
