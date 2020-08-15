@@ -1,6 +1,7 @@
 package org.scala_exercises.cats
 
 import cats._
+import cats.implicits._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 

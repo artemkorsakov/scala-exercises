@@ -9,7 +9,9 @@ libraryDependencies += "org.scalacheck"    %% "scalacheck"                  % "1
 libraryDependencies += "org.scalatestplus" %% "scalacheck-1-14"             % "3.2.1.0"
 libraryDependencies += "com.47deg"         %% "scalacheck-toolbox-datetime" % "0.3.1" % "test"
 
-libraryDependencies += "org.typelevel" %% "cats-core"   % "2.1.1"
-libraryDependencies += "org.typelevel" %% "cats-effect" % "3.0-26ef642"
-
-libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.3"
+libraryDependencies += "org.typelevel" %% "cats-core"     % "2.1.1"
+libraryDependencies += "org.typelevel" %% "cats-effect"   % "2.1.4"
+libraryDependencies += "com.chuusai"   %% "shapeless"     % "2.3.3"
+libraryDependencies += "org.tpolecat"  %% "doobie-core"   % "0.9.0"
+libraryDependencies += "org.tpolecat"  %% "doobie-h2"     % "0.9.0"
+libraryDependencies += "org.tpolecat"  %% "doobie-hikari" % "0.9.0"
