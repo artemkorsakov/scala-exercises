@@ -1,49 +1,34 @@
 package org.scala_exercises.circe
 
+import circelib.helpers.JsonHelpers._
+import io.circe.Json
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class JsonTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test CIRCE LIB section Json 0") {}
+  test("test CIRCE LIB section Json 0") {
+    jsonFromFields.noSpaces should be("{\"key1\":\"value1\",\"key2\":1}")
+  }
 
-  test("test CIRCE LIB section Json 1") {}
+  test("test CIRCE LIB section Json 1") {
+    "{\"key\":\"value\"}" should be(Json.fromFields(List(("key", Json.fromString("value")))).noSpaces)
 
-  test("test CIRCE LIB section Json 2") {}
+    "{\"name\":\"sample json\",\"data\":{\"done\":false}}" should be(
+      Json
+        .fromFields(
+          List(
+            ("name", Json.fromString("sample json")),
+            ("data", Json.fromFields(List(("done", Json.fromBoolean(false)))))
+          )
+        )
+        .noSpaces
+    )
 
-  test("test CIRCE LIB section Json 3") {}
+    "[{\"x\":1}]" should be(Json.fromValues(List(Json.fromFields(List(("x", Json.fromInt(1)))))).noSpaces)
+  }
 
-  test("test CIRCE LIB section Json 4") {}
-
-  test("test CIRCE LIB section Json 5") {}
-
-  test("test CIRCE LIB section Json 6") {}
-
-  test("test CIRCE LIB section Json 7") {}
-
-  test("test CIRCE LIB section Json 8") {}
-
-  test("test CIRCE LIB section Json 9") {}
-
-  test("test CIRCE LIB section Json 10") {}
-
-  test("test CIRCE LIB section Json 11") {}
-
-  test("test CIRCE LIB section Json 12") {}
-
-  test("test CIRCE LIB section Json 13") {}
-
-  test("test CIRCE LIB section Json 14") {}
-
-  test("test CIRCE LIB section Json 15") {}
-
-  test("test CIRCE LIB section Json 16") {}
-
-  test("test CIRCE LIB section Json 17") {}
-
-  test("test CIRCE LIB section Json 18") {}
-
-  test("test CIRCE LIB section Json 19") {}
-
-  test("test CIRCE LIB section Json 20") {}
+  test("test CIRCE LIB section Json 2") {
+    transformJson(jsonArray).noSpaces should be("[{\"field1\":1}]")
+  }
 
 }
