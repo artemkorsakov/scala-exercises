@@ -5,13 +5,8 @@ import io.circe.generic.semiauto._
 import io.circe.parser.decode
 import io.circe.syntax._
 import io.circe.generic.JsonCodec
-import BarHelper._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
-
-object BarHelper {
-  @JsonCodec case class Bar(i: Int, s: String)
-}
 
 class EncodingAndDecodingTestSuite extends AnyFunSuiteLike with Matchers {
   test("test CIRCE LIB section Encoding And Decoding 0") {
@@ -35,16 +30,7 @@ class EncodingAndDecodingTestSuite extends AnyFunSuiteLike with Matchers {
     // implicit val fooEncoder: Encoder[Foo] = deriveEncoder
   }
 
-  test("test CIRCE LIB section Encoding And Decoding 3") {
-    val bar = Bar(13, "Qux").asJson
-    // res4: io.circe.Json =
-    // {
-    //   "i" : 13,
-    //   "s" : "Qux"
-    // }
-
-    println(bar)
-  }
+  test("test CIRCE LIB section Encoding And Decoding 3") {}
 
   test("test CIRCE LIB section Encoding And Decoding 4") {}
 

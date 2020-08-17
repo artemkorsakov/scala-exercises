@@ -2,7 +2,7 @@ name := "scala-exercises"
 
 version := "0.1"
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.13.3"
 
 libraryDependencies ++= Seq(
   "org.scalatest"              %% "scalatest"                   % "3.2.1",
@@ -23,6 +23,3 @@ libraryDependencies ++= Seq(
   "io.circe"                   %% "circe-shapes"                % "0.13.0",
   "io.circe"                   %% "circe-optics"                % "0.13.0"
 )
-
-resolvers += Resolver.sonatypeRepo("releases")
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
