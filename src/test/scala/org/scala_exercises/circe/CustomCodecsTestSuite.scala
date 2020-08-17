@@ -1,49 +1,70 @@
 package org.scala_exercises.circe
 
+import circelib.helpers.CustomCodecsHelpers.json
+import io.circe._
+import io.circe.generic.extras.{ Configuration, JsonKey }
+import io.circe.syntax._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class CustomCodecsTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test CIRCE LIB section Custom Codecs 0") {}
+  test("test CIRCE LIB section Custom Codecs 0") {
+    json.hcursor.downField("hello").as[Int] should be(Right(123))
+  }
 
-  test("test CIRCE LIB section Custom Codecs 1") {}
+  test("test CIRCE LIB section Custom Codecs 1") {
+    case class User(firstName: String, lastName: String)
 
-  test("test CIRCE LIB section Custom Codecs 2") {}
+    implicit val encodeFoo: Encoder[User] = (a: User) =>
+      Json
+        .fromFields(
+          List(
+            ("first_name", Json.fromString(a.firstName)),
+            ("last_name", Json.fromString(a.lastName))
+          )
+        )
 
-  test("test CIRCE LIB section Custom Codecs 3") {}
+    implicit val decodeFoo: Decoder[User] = (c: HCursor) => Left(DecodingFailure("Not implemented yet", c.history))
 
-  test("test CIRCE LIB section Custom Codecs 4") {}
+    User("Foo", "McBar").asJson.noSpaces shouldBe """{"first_name":"Foo","last_name":"McBar"}"""
+  }
 
-  test("test CIRCE LIB section Custom Codecs 5") {}
+  test("test CIRCE LIB section Custom Codecs 2") {
+    val config: Configuration = Configuration.default.copy(transformMemberNames = {
+      case "i"   => "my-int"
+      case other => other
+    })
 
-  test("test CIRCE LIB section Custom Codecs 6") {}
+    case class Bar(i: Int, s: String)
 
-  test("test CIRCE LIB section Custom Codecs 7") {}
+    implicit val encodeFoo: Encoder[Bar] = (a: Bar) =>
+      Json
+        .fromFields(
+          List(
+            ("my-int", Json.fromInt(a.i)),
+            ("s", Json.fromString(a.s))
+          )
+        )
 
-  test("test CIRCE LIB section Custom Codecs 8") {}
+    Bar(13, "Qux").asJson.noSpaces shouldBe """{"my-int":13,"s":"Qux"}"""
+  }
 
-  test("test CIRCE LIB section Custom Codecs 9") {}
+  test("test CIRCE LIB section Custom Codecs 3") {
+    val config: Configuration = Configuration.default
 
-  test("test CIRCE LIB section Custom Codecs 10") {}
+    case class Bar(@JsonKey("my-int") i: Int, s: String)
 
-  test("test CIRCE LIB section Custom Codecs 11") {}
+    implicit val encodeFoo: Encoder[Bar] = (a: Bar) =>
+      Json
+        .fromFields(
+          List(
+            ("my-int", Json.fromInt(a.i)),
+            ("s", Json.fromString(a.s))
+          )
+        )
 
-  test("test CIRCE LIB section Custom Codecs 12") {}
+    Bar(13, "Qux").asJson.noSpaces shouldBe """{"my-int":13,"s":"Qux"}"""
 
-  test("test CIRCE LIB section Custom Codecs 13") {}
-
-  test("test CIRCE LIB section Custom Codecs 14") {}
-
-  test("test CIRCE LIB section Custom Codecs 15") {}
-
-  test("test CIRCE LIB section Custom Codecs 16") {}
-
-  test("test CIRCE LIB section Custom Codecs 17") {}
-
-  test("test CIRCE LIB section Custom Codecs 18") {}
-
-  test("test CIRCE LIB section Custom Codecs 19") {}
-
-  test("test CIRCE LIB section Custom Codecs 20") {}
+  }
 
 }

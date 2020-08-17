@@ -5,6 +5,7 @@ import io.circe.generic.semiauto._
 import io.circe.parser.decode
 import io.circe.syntax._
 import io.circe.generic.JsonCodec
+import io.circe.generic.auto._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
@@ -30,40 +31,26 @@ class EncodingAndDecodingTestSuite extends AnyFunSuiteLike with Matchers {
     // implicit val fooEncoder: Encoder[Foo] = deriveEncoder
   }
 
-  test("test CIRCE LIB section Encoding And Decoding 3") {}
+  test("test CIRCE LIB section Encoding And Decoding 3") {
+    case class User(id: Long, firstName: String, lastName: String)
 
-  test("test CIRCE LIB section Encoding And Decoding 4") {}
+    object UserCodec {
+      implicit val decodeUser: Decoder[User] =
+        Decoder.forProduct3("id", "first_name", "last_name")(User.apply)
 
-  test("test CIRCE LIB section Encoding And Decoding 5") {}
+      implicit val encodeUser: Encoder[User] =
+        Encoder.forProduct3("id", "first_name", "last_name")(u => (u.id, u.firstName, u.lastName))
+    }
+  }
 
-  test("test CIRCE LIB section Encoding And Decoding 6") {}
+  test("test CIRCE LIB section Encoding And Decoding 4") {
+    case class Person(name: String)
 
-  test("test CIRCE LIB section Encoding And Decoding 7") {}
+    case class Greeting(salutation: String, person: Person, exclamationMarks: Int)
 
-  test("test CIRCE LIB section Encoding And Decoding 8") {}
+    val greetingJson = Greeting("Hey", Person("Chris"), 3).asJson
 
-  test("test CIRCE LIB section Encoding And Decoding 9") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 10") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 11") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 12") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 13") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 14") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 15") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 16") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 17") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 18") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 19") {}
-
-  test("test CIRCE LIB section Encoding And Decoding 20") {}
+    greetingJson.hcursor.downField("person").downField("name").as[String] should be(Right("Chris"))
+  }
 
 }

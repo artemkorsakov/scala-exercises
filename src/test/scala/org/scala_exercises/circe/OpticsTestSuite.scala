@@ -1,49 +1,56 @@
 package org.scala_exercises.circe
 
+import io.circe._
+import circelib.helpers.OpticsHelpers._
+import io.circe.optics.JsonPath._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class OpticsTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test CIRCE LIB section Optics 0") {}
+  test("test CIRCE LIB section Optics 0") {
+    val _address                = root.order.customer.contactDetails.address.string
+    val address: Option[String] = _address.getOption(json)
+    address should be(Some("1 Fake Street, London, England"))
+  }
 
-  test("test CIRCE LIB section Optics 1") {}
+  test("test CIRCE LIB section Optics 1") {
+    val items: List[String] = root.order.items.each.description.string.getAll(json)
+    items should be(List("banana", "apple"))
+  }
 
-  test("test CIRCE LIB section Optics 2") {}
+  test("test CIRCE LIB section Optics 2") {
+    val doubleQuantities: Json => Json = root.order.items.each.quantity.int.modify(_ * 2)
 
-  test("test CIRCE LIB section Optics 3") {}
+    val modifiedJson = doubleQuantities(json)
 
-  test("test CIRCE LIB section Optics 4") {}
+    val modifiedQuantities: List[Int] = root.order.items.each.quantity.int.getAll(modifiedJson)
+    modifiedQuantities should be(List(2, 4))
+  }
 
-  test("test CIRCE LIB section Optics 5") {}
+  test("test CIRCE LIB section Optics 3") {
+    import io.circe.optics.JsonOptics._
+    import monocle.function.Plated
 
-  test("test CIRCE LIB section Optics 6") {}
+    val recursiveModifiedJson = Plated.transform[Json] { j =>
+      j.asNumber match {
+        case Some(n) => Json.fromString(n.toString)
+        case None    => j
+      }
+    }(json)
 
-  test("test CIRCE LIB section Optics 7") {}
+    root.order.total.string.getOption(recursiveModifiedJson) shouldBe Some("123.45")
+  }
 
-  test("test CIRCE LIB section Optics 8") {}
+  test("test CIRCE LIB section Optics 4") {
+    val doubleQuantities: Json => Json =
+      root.order.itemss.each.quantity.int.modify(_ * 2) // Note the "itemss" typo
 
-  test("test CIRCE LIB section Optics 9") {}
+    val modifiedJson = doubleQuantities(json)
 
-  test("test CIRCE LIB section Optics 10") {}
+    val modifiedQuantitiesDynamic: List[Int] =
+      root.order.items.each.quantity.int.getAll(modifiedJson)
 
-  test("test CIRCE LIB section Optics 11") {}
-
-  test("test CIRCE LIB section Optics 12") {}
-
-  test("test CIRCE LIB section Optics 13") {}
-
-  test("test CIRCE LIB section Optics 14") {}
-
-  test("test CIRCE LIB section Optics 15") {}
-
-  test("test CIRCE LIB section Optics 16") {}
-
-  test("test CIRCE LIB section Optics 17") {}
-
-  test("test CIRCE LIB section Optics 18") {}
-
-  test("test CIRCE LIB section Optics 19") {}
-
-  test("test CIRCE LIB section Optics 20") {}
+    modifiedQuantitiesDynamic == List(2, 4) should be(false)
+  }
 
 }
