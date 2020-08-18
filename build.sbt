@@ -11,6 +11,7 @@ libraryDependencies ++= Seq(
   "com.47deg"                  %% "scalacheck-toolbox-datetime" % "0.3.1",
   "org.typelevel"              %% "cats-core"                   % "2.1.1",
   "org.typelevel"              %% "cats-effect"                 % "2.1.4",
+  "org.typelevel"              %% "alleycats-core"              % "2.1.1",
   "com.chuusai"                %% "shapeless"                   % "2.3.3",
   "com.github.alexarchambault" %% "scalacheck-shapeless_1.14"   % "1.2.5",
   "org.tpolecat"               %% "doobie-core"                 % "0.9.0",
@@ -21,5 +22,12 @@ libraryDependencies ++= Seq(
   "io.circe"                   %% "circe-parser"                % "0.13.0",
   "io.circe"                   %% "circe-generic-extras"        % "0.13.0",
   "io.circe"                   %% "circe-shapes"                % "0.13.0",
-  "io.circe"                   %% "circe-optics"                % "0.13.0"
+  "io.circe"                   %% "circe-optics"                % "0.13.0",
+  "com.47deg"                  %% "fetch"                       % "1.3.0",
+  "com.47deg"                  %% "fetch-debug"                 % "1.3.0",
+  "com.github.julien-truffaut" %% "monocle-core"                % "2.1.0",
+  "com.github.julien-truffaut" %% "monocle-macro"               % "2.1.0"
 )
+
+scalacOptions += "-Ymacro-annotations"
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
