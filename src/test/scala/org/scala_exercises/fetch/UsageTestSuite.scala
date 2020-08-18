@@ -3,6 +3,7 @@ package org.scala_exercises.fetch
 import cats.effect._
 import cats.implicits._
 import fetch._
+import fetchlib.FetchTutorialHelper._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
