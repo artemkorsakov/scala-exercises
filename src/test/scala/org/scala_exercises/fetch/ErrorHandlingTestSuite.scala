@@ -1,49 +1,53 @@
 package org.scala_exercises.fetch
 
+import cats.effect._
+import fetch._
+import fetchlib.FetchTutorialHelper._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class ErrorHandlingTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test FETCH LIB section Error Handling 0") {}
+  test("test FETCH LIB section Error Handling 0") {
+    val safeResult = Fetch.run[IO](fetchException).attempt.unsafeRunSync()
 
-  test("test FETCH LIB section Error Handling 1") {}
+    safeResult.isLeft shouldBe true
+  }
 
-  test("test FETCH LIB section Error Handling 2") {}
+  test("test FETCH LIB section Error Handling 1") {
+    import fetch.debug.describe
 
-  test("test FETCH LIB section Error Handling 3") {}
+    val value: Either[Throwable, (Log, String)] = result.unsafeRunSync()
+    value.isLeft shouldBe true
 
-  test("test FETCH LIB section Error Handling 4") {}
+    println(value.fold(describe, identity))
+  }
 
-  test("test FETCH LIB section Error Handling 5") {}
+  test("test FETCH LIB section Error Handling 2") {
+    import fetch.debug.describe
 
-  test("test FETCH LIB section Error Handling 6") {}
+    def missingUser[F[_]: Concurrent] = getUser(5)
 
-  test("test FETCH LIB section Error Handling 7") {}
+    val result: IO[Either[Throwable, (Log, User)]] = Fetch.runLog[IO](missingUser).attempt
 
-  test("test FETCH LIB section Error Handling 8") {}
+    //And now we can execute the fetch and describe its execution:
 
-  test("test FETCH LIB section Error Handling 9") {}
+    val value: Either[Throwable, (Log, User)] = result.unsafeRunSync()
+    value.isLeft shouldBe true
 
-  test("test FETCH LIB section Error Handling 10") {}
+    println(value.fold(describe, identity))
+  }
 
-  test("test FETCH LIB section Error Handling 11") {}
+  test("test FETCH LIB section Error Handling 3") {
+    import fetch.debug.describe
 
-  test("test FETCH LIB section Error Handling 12") {}
+    Fetch.runLog[IO](getUser(5)).attempt.unsafeRunSync() match {
+      case Left(mi @ MissingIdentity(id, q, log)) =>
+        q.data.name shouldBe "Users"
+        id shouldBe 5
 
-  test("test FETCH LIB section Error Handling 13") {}
-
-  test("test FETCH LIB section Error Handling 14") {}
-
-  test("test FETCH LIB section Error Handling 15") {}
-
-  test("test FETCH LIB section Error Handling 16") {}
-
-  test("test FETCH LIB section Error Handling 17") {}
-
-  test("test FETCH LIB section Error Handling 18") {}
-
-  test("test FETCH LIB section Error Handling 19") {}
-
-  test("test FETCH LIB section Error Handling 20") {}
+        println(describe(log))
+      case _ =>
+    }
+  }
 
 }

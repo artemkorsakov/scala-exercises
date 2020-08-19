@@ -1,49 +1,30 @@
 package org.scala_exercises.fetch
 
+import cats.effect._
+import cats.implicits._
+import fetch._
+import fetchlib.FetchTutorialHelper._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class DebuggingTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test FETCH LIB section Debugging 0") {}
+  test("test FETCH LIB section Debugging 0") {
+    def batched[F[_]: Concurrent]: Fetch[F, List[User]] =
+      List(1, 2).traverse(getUser[F])
 
-  test("test FETCH LIB section Debugging 1") {}
+    def cached[F[_]: Concurrent]: Fetch[F, User] =
+      getUser(2)
 
-  test("test FETCH LIB section Debugging 2") {}
+    def notCached[F[_]: Concurrent]: Fetch[F, User] =
+      getUser(4)
 
-  test("test FETCH LIB section Debugging 3") {}
+    def concurrent[F[_]: Concurrent]: Fetch[F, (List[User], List[Post])] =
+      (List(1, 2, 3).traverse(getUser[F]), List(1, 2, 3).traverse(getPost[F])).tupled
 
-  test("test FETCH LIB section Debugging 4") {}
+    def interestingFetch[F[_]: Concurrent]: Fetch[F, String] =
+      batched >> cached >> notCached >> concurrent >> Fetch.pure("done")
 
-  test("test FETCH LIB section Debugging 5") {}
-
-  test("test FETCH LIB section Debugging 6") {}
-
-  test("test FETCH LIB section Debugging 7") {}
-
-  test("test FETCH LIB section Debugging 8") {}
-
-  test("test FETCH LIB section Debugging 9") {}
-
-  test("test FETCH LIB section Debugging 10") {}
-
-  test("test FETCH LIB section Debugging 11") {}
-
-  test("test FETCH LIB section Debugging 12") {}
-
-  test("test FETCH LIB section Debugging 13") {}
-
-  test("test FETCH LIB section Debugging 14") {}
-
-  test("test FETCH LIB section Debugging 15") {}
-
-  test("test FETCH LIB section Debugging 16") {}
-
-  test("test FETCH LIB section Debugging 17") {}
-
-  test("test FETCH LIB section Debugging 18") {}
-
-  test("test FETCH LIB section Debugging 19") {}
-
-  test("test FETCH LIB section Debugging 20") {}
+    Fetch.runLog[IO](interestingFetch).unsafeRunSync()._2 shouldBe "done"
+  }
 
 }

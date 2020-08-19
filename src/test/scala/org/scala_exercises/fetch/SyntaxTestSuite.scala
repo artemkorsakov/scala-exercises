@@ -1,49 +1,38 @@
 package org.scala_exercises.fetch
 
+import cats.effect._
+import cats.implicits._
+import fetch._
+import fetchlib.FetchTutorialHelper._
 import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 
 class SyntaxTestSuite extends AnyFunSuiteLike with Matchers {
-  test("test FETCH LIB section Syntax 0") {}
+  test("test FETCH LIB section Syntax 0") {
+    def fetchPure[F[_]: Concurrent]: Fetch[F, Int] = Fetch.pure(42)
 
-  test("test FETCH LIB section Syntax 1") {}
+    Fetch.run[IO](fetchPure).unsafeRunSync() shouldBe 42
+  }
 
-  test("test FETCH LIB section Syntax 2") {}
+  test("test FETCH LIB section Syntax 1") {
+    def fetchFail[F[_]: Concurrent]: Fetch[F, Int] =
+      Fetch.error(new Exception("Something went terribly wrong"))
 
-  test("test FETCH LIB section Syntax 3") {}
+    Fetch.run[IO](fetchFail).attempt.unsafeRunSync().isLeft shouldBe true
+  }
 
-  test("test FETCH LIB section Syntax 4") {}
+  test("test FETCH LIB section Syntax 2") {
+    def fetchThree[F[_]: Concurrent]: Fetch[F, (Post, User, Post)] =
+      (getPost(1), getUser(2), getPost(2)).tupled
 
-  test("test FETCH LIB section Syntax 5") {}
+    Fetch.run[IO](fetchThree).unsafeRunSync()._2 shouldBe User(2, "@two")
+  }
 
-  test("test FETCH LIB section Syntax 6") {}
+  test("test FETCH LIB section Syntax 3") {
+    def fetchFriends[F[_]: Concurrent]: Fetch[F, String] =
+      (getUser(1), getUser(2)).mapN((one, other) => s"${one.username} is friends with ${other.username}")
 
-  test("test FETCH LIB section Syntax 7") {}
-
-  test("test FETCH LIB section Syntax 8") {}
-
-  test("test FETCH LIB section Syntax 9") {}
-
-  test("test FETCH LIB section Syntax 10") {}
-
-  test("test FETCH LIB section Syntax 11") {}
-
-  test("test FETCH LIB section Syntax 12") {}
-
-  test("test FETCH LIB section Syntax 13") {}
-
-  test("test FETCH LIB section Syntax 14") {}
-
-  test("test FETCH LIB section Syntax 15") {}
-
-  test("test FETCH LIB section Syntax 16") {}
-
-  test("test FETCH LIB section Syntax 17") {}
-
-  test("test FETCH LIB section Syntax 18") {}
-
-  test("test FETCH LIB section Syntax 19") {}
-
-  test("test FETCH LIB section Syntax 20") {}
+    Fetch.run[IO](fetchFriends).unsafeRunSync() shouldBe "@one is friends with @two"
+  }
 
 }
